@@ -1,0 +1,5 @@
+frameworkVersion: 1
+
+functions:
+  createUser:
+    handler: handler/userHandler.createUser  

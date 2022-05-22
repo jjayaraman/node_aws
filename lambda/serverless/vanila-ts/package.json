@@ -1,0 +1,26 @@
+{
+  "name": "vanila-ts",
+  "version": "1.0.0",
+  "description": "AWS Serverless using Serverless framework Typescript NodeJS frameworks",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aws",
+    "typescript",
+    "nodejs",
+    "serverless"
+  ],
+  "author": "Jayakumar Jayaraman",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.35",
+    "serverless": "^3.18.1",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1140.0"
+  }
+}
