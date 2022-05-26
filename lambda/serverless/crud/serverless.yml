@@ -13,36 +13,37 @@
 
 service: crud
 # app and org for use with dashboard.serverless.com
-app: crud
-org: jjayk
+# app: crud
+# org: jjayk
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-frameworkVersion: "2"
+frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs12.x
-  lambdaHashingVersion: 20201221
   region: eu-west-2
   memorySize: 256
-  logRetentionInDays: 7
+  logRetentionInDays: 1
   timeout: 29
   stage: dev
 
-iamRoleStatements:
-  - Effect: "Allow"
-    Action:
-      - "dynamodb:List*"
-      - "dynamodb:Query"
-      - "dynamodb:Scan"
-      - "dynamodb:GetItem"
-      - "dynamodb:PutItem"
-      - "dynamodb:DeleteItem"
-    Resource:
-      Fn::GetAtt:
-        - UsersDynamoTable
-        - Arn
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:List*"
+            - "dynamodb:Query"
+            - "dynamodb:Scan"
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+            - "dynamodb:DeleteItem"
+          Resource:
+            Fn::GetAtt:
+              - UsersDynamoTable
+              - Arn
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -142,7 +143,7 @@ resources:
         TableName: Users
         AttributeDefinitions:
           - AttributeName: userId
-            AttributeType: "string"
+            AttributeType: "S"
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
