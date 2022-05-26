@@ -9,7 +9,7 @@ export const createUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
   const body = event.body as String
 
   await documentClient.put({
-    TableName: 'users',
+    TableName: 'Users',
     Item: {
       userId: v4(),
       ...body
