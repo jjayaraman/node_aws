@@ -79,6 +79,18 @@ functions:
       - httpApi:
           path: /user
           method: post
+  getAllUsers:
+    handler: src/handlers.getAllUsers
+    events:
+      - httpApi:
+          path: /users
+          method: get
+  deleteUser:
+    handler: src/handlers.deleteUser
+    events:
+      - httpApi:
+          path: /user/{userId}
+          method: delete
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
