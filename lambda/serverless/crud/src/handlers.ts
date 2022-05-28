@@ -24,10 +24,7 @@ export const createUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
 
   await userService.createUser(user).then(data => {
     statusCode = 200;
-    body = JSON.stringify(user)
-    console.log('data is: ', JSON.stringify(data));
-    console.log('body is: ', body);
-
+    body = JSON.stringify(data)
   }).catch(err => {
     statusCode = 500
     body = `An error occured when creating a user ${user}`
@@ -50,16 +47,14 @@ export const getAllUsers = async (event: APIGatewayProxyEvent): Promise<APIGatew
   let statusCode = 200;
   let body = ''
 
-  await documentClient.scan({ TableName: 'Users' }, (err, data) => {
-    if (err) {
-      console.error(err)
-      statusCode = 500
-      body = `An error occured when trying to read all users`
-    }
-    console.log('getAllUsers : ', data);
-    body = JSON.stringify(data, null, 2);
-  }).promise();
-
+  await userService.getAllUsers().then(users => {
+    console.log('getAllUsers : ', users);
+    body = JSON.stringify(users, null, 2);
+  }).catch(err => {
+    console.error(err)
+    statusCode = 500
+    body = `An error occured when trying to read all users`
+  });
 
   return {
     statusCode,
@@ -77,23 +72,19 @@ export const deleteUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
   let statusCode = 200;
   let body = '';
 
-  const deleteInputItem = {
-    TableName: 'Users',
-    Key: { id }
-  }
-
-  console.log('deleteInputItem : ', deleteInputItem)
-
-  await documentClient.delete(deleteInputItem, (err, data) => {
-    if (err) {
-      statusCode = 500
+  if (id) {
+    try {
+      await userService.deleteUser(id);
+      statusCode = 200;
+      body = `User ${id} successfully deleted`;
+    } catch (error) {
+      statusCode = 500;
       body = `Failed to delete User ${id}`;
-      console.error(err)
     }
-    body = `User ${id} successfully deleted`;
-
-  }).promise();
-
+  } else {
+    statusCode = 400;
+    body = `Not a valid user id :  ${id}`;
+  }
   return {
     statusCode,
     body,
@@ -102,6 +93,10 @@ export const deleteUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
 }
 
 function populateUserModel(event: APIGatewayProxyEvent) {
+  if (!event.body) {
+    throw new Error("Empty body received");
+  }
+
   let body: User = JSON.parse(event.body);
 
   const user: User = {

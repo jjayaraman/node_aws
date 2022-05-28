@@ -4,12 +4,13 @@ export default class UserService {
 
     constructor(private documentClient: DocumentClient) { }
 
+    USER_TABLE = process.env.DYNAMODB_USERS_TABLE || 'Users'
 
     createUser = async (user: User): Promise<User> => {
         console.log('user data received', JSON.stringify(user));
 
         const putItem = {
-            TableName: 'Users',
+            TableName: this.USER_TABLE,
             Item: user
         }
 
@@ -22,4 +23,24 @@ export default class UserService {
     }
 
 
+    getAllUsers = async (): Promise<Array<User>> => {
+        const users = await this.documentClient.scan({ TableName: this.USER_TABLE }, (err, data) => {
+            if (err) throw err
+        }).promise();
+
+        return users.Items as User[]
+    }
+
+
+    deleteUser = async (id: string): Promise<any> => {
+        const deleteItemInput = {
+            TableName: this.USER_TABLE,
+            Key: { id }
+        }
+        return await this.documentClient.delete(deleteItemInput, (err, data) => {
+            if (err) throw err
+            console.log('delete item : ' + JSON.stringify(data));
+
+        }).promise();
+    }
 }

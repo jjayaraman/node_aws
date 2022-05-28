@@ -30,6 +30,7 @@ provider:
   stage: dev
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    DYNAMODB_USERS_TABLE: ${self:service}-${self:provider.stage}-users
   iam:
     role:
       statements:
@@ -153,7 +154,7 @@ resources:
     UsersDynamoTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Users
+        TableName: ${self:provider.environment.DYNAMODB_USERS_TABLE}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
