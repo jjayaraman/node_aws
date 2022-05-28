@@ -23,6 +23,18 @@ export default class UserService {
     }
 
 
+    updateUser = async (id: string, user: User) => {
+
+        const updateItemInput = {
+            TableName: this.USER_TABLE,
+            Key: { id }
+        }
+        return await this.documentClient.update(updateItemInput, (err, result) => {
+            if (err) throw err;
+        }).promise();
+
+    }
+
     getAllUsers = async (): Promise<Array<User>> => {
         const users = await this.documentClient.scan({ TableName: this.USER_TABLE }, (err, data) => {
             if (err) throw err

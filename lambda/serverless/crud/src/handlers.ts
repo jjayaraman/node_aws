@@ -102,10 +102,10 @@ function populateUserModel(event: APIGatewayProxyEvent) {
   const user: User = {
     id: v4(),
     name: body.name,
-    age: 0,
+    age: body.age,
     email: body.email,
-    homeAddress: undefined,
-    workAddress: undefined
+    homeAddress: body.homeAddress,
+    workAddress: body.workAddress
   }
   return user;
 }
