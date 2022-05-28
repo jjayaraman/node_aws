@@ -1,38 +1,38 @@
-import AWS from 'aws-sdk';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { v4 } from 'uuid';
+import User from "./model/User";
+import UserService from './service/UserService';
 
-const documentClient = new AWS.DynamoDB.DocumentClient();
+const documentClient = new DocumentClient();
+const userService = new UserService(documentClient);
+
 
 const headers = {
   'Content-type': 'application/json'
 }
 
+
 export const createUser = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
   console.log('event :: ', JSON.stringify(event));
-  const user = event.body as String
-  console.log('Creating user : ', user);
-
-  const putItem = {
-    TableName: 'Users',
-    Item: {
-      userId: v4(),
-      details: user
-    }
-  }
 
   let statusCode = 200;
   let body = ''
-  await documentClient.put(putItem, (err, data) => {
-    if (err) {
-      console.error(err)
-      statusCode = 500
-      body = `An error occured when creating a user ${user}`
-    }
+  let user = populateUserModel(event);
+  console.log("populated user: ", JSON.stringify(user));
+
+  await userService.createUser(user).then(data => {
     statusCode = 200;
     body = JSON.stringify(user)
-  }).promise()
+    console.log('data is: ', JSON.stringify(data));
+    console.log('body is: ', body);
+
+  }).catch(err => {
+    statusCode = 500
+    body = `An error occured when creating a user ${user}`
+    console.error(err)
+  });
 
   return {
     statusCode,
@@ -72,14 +72,14 @@ export const getAllUsers = async (event: APIGatewayProxyEvent): Promise<APIGatew
 export const deleteUser = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
   console.log('event :: ', JSON.stringify(event));
-  const userId = event.pathParameters?.userId
+  const id = event.pathParameters?.id
 
   let statusCode = 200;
   let body = '';
 
   const deleteInputItem = {
     TableName: 'Users',
-    Key: { userId }
+    Key: { id }
   }
 
   console.log('deleteInputItem : ', deleteInputItem)
@@ -87,10 +87,10 @@ export const deleteUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
   await documentClient.delete(deleteInputItem, (err, data) => {
     if (err) {
       statusCode = 500
-      body = `Failed to delete User ${userId}`;
+      body = `Failed to delete User ${id}`;
       console.error(err)
     }
-    body = `User ${userId} successfully deleted`;
+    body = `User ${id} successfully deleted`;
 
   }).promise();
 
@@ -99,4 +99,18 @@ export const deleteUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
     body,
     headers
   }
+}
+
+function populateUserModel(event: APIGatewayProxyEvent) {
+  let body: User = JSON.parse(event.body);
+
+  const user: User = {
+    id: v4(),
+    name: body.name,
+    age: 0,
+    email: body.email,
+    homeAddress: undefined,
+    workAddress: undefined
+  }
+  return user;
 }
