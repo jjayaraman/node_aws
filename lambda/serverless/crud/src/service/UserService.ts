@@ -23,14 +23,23 @@ export default class UserService {
     }
 
 
-    updateUser = async (id: string, user: User) => {
+    updateUser = async (keyValue: string, itemName: string, itemValue: string) => {
 
         const updateItemInput = {
             TableName: this.USER_TABLE,
-            Key: { id }
+            Key: { id: keyValue },  // primary key name and value
+            UpdateExpression: `set ${itemName} = :i_value`,
+            ExpressionAttributeValues: {
+                ':i_value': itemValue
+            },
+            ReturnValues: "UPDATED_NEW"
         }
+        console.log('updateItemInput : ' + updateItemInput);
+
         return await this.documentClient.update(updateItemInput, (err, result) => {
             if (err) throw err;
+            console.log('User updated successfully');
+
         }).promise();
 
     }

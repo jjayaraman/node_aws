@@ -36,12 +36,7 @@ provider:
       statements:
         - Effect: "Allow"
           Action:
-            - "dynamodb:List*"
-            - "dynamodb:Query"
-            - "dynamodb:Scan"
-            - "dynamodb:GetItem"
-            - "dynamodb:PutItem"
-            - "dynamodb:DeleteItem"
+            - "dynamodb:*"
           Resource:
             Fn::GetAtt:
               - UsersDynamoTable
@@ -94,7 +89,12 @@ functions:
       - httpApi:
           path: /user/{id}
           method: delete
-
+  updateUser:
+    handler: src/handlers.updateUser
+    events:
+      - httpApi:
+          path: /user/{id}
+          method: put
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

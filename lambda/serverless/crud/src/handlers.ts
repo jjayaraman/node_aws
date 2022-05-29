@@ -17,13 +17,13 @@ export const createUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
 
   console.log('event :: ', JSON.stringify(event));
 
-  let statusCode = 200;
+  let statusCode = 201;
   let body = ''
   let user = populateUserModel(event);
   console.log("populated user: ", JSON.stringify(user));
 
   await userService.createUser(user).then(data => {
-    statusCode = 200;
+    statusCode = 201;
     body = JSON.stringify(data)
   }).catch(err => {
     statusCode = 500
@@ -39,6 +39,41 @@ export const createUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
 };
 
 
+export const updateUser = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+
+  if (!event.body) {
+    throw new Error("Empty body received");
+  }
+
+  let bodyInput = JSON.parse(event.body);
+
+  const keyValue = bodyInput.id
+  const itemName = bodyInput.itemName
+  const itemValue = bodyInput.itemValue
+  console.log(`Update user inputs ${keyValue}, ${itemName}, ${itemValue}`);
+
+
+  let statusCode = 200;
+  let body = ''
+
+  try {
+    const result = await userService.updateUser(keyValue, itemName, itemValue);
+    statusCode = 200;
+    body = 'User update successful'
+  } catch (error) {
+    statusCode = 500;
+    body = 'User update failed with error: ' + error
+    console.error("User update failed with error: " + error);
+
+  }
+
+  return {
+    statusCode,
+    body,
+    headers
+  }
+
+}
 
 export const getAllUsers = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
