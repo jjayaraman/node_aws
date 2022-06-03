@@ -12,6 +12,7 @@
     "@types/aws-lambda": "^8.10.81",
     "@types/node": "^17.0.35",
     "@types/uuid": "^8.3.4",
+    "jest": "^28.1.0",
     "prettier": "^2.3.2",
     "serverless": "^3.18.2",
     "serverless-plugin-typescript": "^2.1.2",
