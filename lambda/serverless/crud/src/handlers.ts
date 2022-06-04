@@ -77,6 +77,8 @@ export const updateUser = async (event: APIGatewayProxyEvent): Promise<APIGatewa
 
 export const getAllUsers = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
+  console.log('IS_OFFLINE :: ', process.env.IS_OFFLINE);
+  
   console.log('event :: ', JSON.stringify(event));
 
   let statusCode = 200;

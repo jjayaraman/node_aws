@@ -137,6 +137,9 @@ functions:
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-offline
+
 # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
