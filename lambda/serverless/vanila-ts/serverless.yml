@@ -4,13 +4,19 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  region: 'eu-west-2'
+  region: eu-west-2
   runtime: nodejs16.x
-  iamRoleStatements:
-    - Effect: 'Allow'
-      Action:
-        - s3:*
-      Resource: arn:aws:s3:::jay-serverless-bucket/*
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:*
+          Resource: 
+            Fn::GetAtt:
+              - JayServerlessS3Bucket
+              - Arn
+          
   environment:
     BUCKET_NAME: jay-serverless-bucket  
 custom:
