@@ -1,5 +1,39 @@
-frameworkVersion: 1
+service: vanila-ts
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: 'eu-west-2'
+  runtime: nodejs16.x
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - s3:*
+      Resource: arn:aws:s3:::jay-serverless-bucket/*
+  environment:
+    BUCKET_NAME: jay-serverless-bucket  
+custom:
+  logRetentionInDays: 1
+  
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-log-retention
+  - serverless-s3-local
+  - serverless-offline
 
 functions:
-  createUser:
-    handler: handler/userHandler.createUser  
+  get:
+    handler: src/handlers/s3Handler.get
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+
+resources:
+  Resources:
+    JayServerlessS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.BUCKET_NAME}
