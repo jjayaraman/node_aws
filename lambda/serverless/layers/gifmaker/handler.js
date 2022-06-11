@@ -1,3 +1,4 @@
+// Source: https://www.serverless.com/blog/publish-aws-lambda-layers-serverless-framework/
 const { spawnSync } = require("child_process");
 const { readFileSync, writeFileSync, unlinkSync } = require("fs");
 const AWS = require("aws-sdk");
