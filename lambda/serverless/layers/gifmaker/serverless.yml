@@ -25,14 +25,12 @@ provider:
   region: eu-west-2
 
 custom:
-  bucket: MyGifMakerBucket
+  bucket: jaygifmakerbucket
 
 layers:
   ffmpeg:
     path: layer
 
-
-# you can add statements to the Lambda function's IAM Role here
 iam:
   role:
     statements:
@@ -41,7 +39,6 @@ iam:
           - s3:PutObject
           - s3:GetObject
         Resource: "arn:aws:s3:::${self:custom.bucket}/*"
-
 #        - Effect: "Allow"
 #          Action:
 #            - "s3:ListBucket"
@@ -67,7 +64,6 @@ iam:
 #    - '!exclude-me-dir/**'
 #    - include-me.js
 #    - include-me-dir/**
-
 functions:
   mkgif:
     handler: handler.mkgif
@@ -118,12 +114,12 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
+# resources:
 #  Resources:
 #    NewResource:
 #      Type: AWS::S3::Bucket
 #      Properties:
-#        BucketName: my-new-bucket
+#        BucketName: ${self:custom.bucket}
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
