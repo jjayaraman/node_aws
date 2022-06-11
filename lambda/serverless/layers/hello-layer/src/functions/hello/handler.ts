@@ -8,12 +8,11 @@ import schema from './schema';
 
 const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   console.log('event: ' + JSON.stringify(event));
-  const { x, y } = event
+  const { x, y } = event.body
   const sum = add(x, y)
   console.log('add : ', sum)
   return formatJSONResponse({
-    message: `Sum is `,
-    event,
+    message: `Sum is ${sum}`
   });
 };
 
