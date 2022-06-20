@@ -1,0 +1,28 @@
+service: elasticsearch
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: eu-west-2
+  memorySize: 128
+  timeout: 10
+custom:
+  logRetentionInDays: 1
+
+plugins:
+  - serverless-plugin-typescript
+
+functions:
+  search:
+    handler: src/functions/elasticsearch.search
+    description: Lambda to search from Elasticsearch
+    memorySize: 128
+    events:
+      - httpApi:
+          path: /search
+          method: GET
+
+    
