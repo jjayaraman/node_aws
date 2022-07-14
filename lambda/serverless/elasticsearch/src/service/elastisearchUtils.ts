@@ -57,10 +57,10 @@ export class ElasticsearchUtils {
         console.debug(`index : ${index}, query: ${JSON.stringify(query)}, sort: ${JSON.stringify(sort)}, size: ${size}`);
         await this.client.indices.refresh({ index })
         const result = await this.client.search({
-            index,
-            query,
-            sort,
-            size
+            index
+            // query,
+            // sort,
+            // size
         })
         return result;
     }
