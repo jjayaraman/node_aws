@@ -7,7 +7,7 @@ const BUCKET_NAME = process.env.BUCKET_NAME as string;
 const s3Client = new S3Client({})
 const s3Service = new S3Service(s3Client)
 
-export const get = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     console.log('BUCKET_NAME : ', BUCKET_NAME)
     let statusCode = 200
     let body

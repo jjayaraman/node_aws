@@ -18,7 +18,14 @@ provider:
               - Arn
           
   environment:
-    BUCKET_NAME: jay-serverless-bucket  
+    BUCKET_NAME: jay-serverless-bucket-2  
+  httpApi:
+    cors: true
+    authorizers:
+      apiAuthoriser:
+        type: request
+        functionName: authoriser
+
 custom:
   logRetentionInDays: 1
   
@@ -30,12 +37,23 @@ plugins:
   - serverless-offline
 
 functions:
-  get:
-    handler: src/handlers/s3Handler.get
+  authoriser:
+    handler: src/handlers/authoriser.handler
+  helloApi:
+    handler: src/handlers/helloApi.handler
     events:
       - httpApi:
-          path: /hello
+          path: /helloapi
+          method: get          
+          authorizer:
+            name: apiAuthoriser
+  s3ListObjects:
+    handler: src/handlers/s3ListObjects.handler
+    events:
+      - httpApi:
+          path: /s3listobjects
           method: get
+
 
 resources:
   Resources:
