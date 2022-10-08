@@ -4,7 +4,7 @@ export const authoriser = (event: any) => {
     console.log(`event : ${event}`);
 
     let effect = 'Deny' // Allow|Deny
-    effect = 'Allow'
+    effect = event.body.effect || 'Deny'
 
     const ACCOUNT_ID = process.env.ACCOUNT_ID
     const REGION = process.env.REGION

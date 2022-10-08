@@ -24,18 +24,28 @@ plugins:
 
 functions:
   authoriser:
-    handler: src/authoriser/handler.authoriser
+    handler: src/functions/authoriser/handler.authoriser
     environment:
       ACCOUNT_ID: ${aws:accountId}
       REGION: ${aws:region}
-      HTTP_API_ID: ${aws:httpApiId}
   hello:
-    handler: src/hello/handler.hello
+    handler: src/functions/hello/handler.hello
     events:
       - httpApi:
           path: /hello
           method: get
           authorizer:
             name: customAuthorizer
+            # identitySource: method.request.header.Authorization 
+            # resultTtlInSeconds: 60 # cache the result for 1 min
+  login:
+    handler: src/functions/login/handler.login
+    events:
+      - httpApi:
+          path: /login
+          method: post
+    environment:
+      SECRET: 'dummysecret'
+
 
     
