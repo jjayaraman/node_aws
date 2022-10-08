@@ -11,6 +11,7 @@ const serverlessConfiguration: AWS = {
     runtime: 'nodejs14.x',
     stage: 'dev',
     region: 'eu-west-2',
+    logRetentionInDays: 1,
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -20,8 +21,23 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
   },
+  layers: {
+    calulator: {
+      path: 'calculator-layer',
+      name: '${sls:stage}-cal-layer',
+      compatibleRuntimes: ['nodejs16.x'],
+      compatibleArchitectures: ['x86_64'],
+      description: 'A hello lambda layer for reusing calculate function across lambdas',
+      package: {
+        include: ['../nodejs/**']
+      }
+    }
+  },
   // import the function via paths
-  functions: { hello },
+  functions: {
+    name: hello,
+    layers: 'arn:aws:lambda:eu-west-2:xxxx:layer:dev-cal-layer:1' 
+  },
   package: { individually: true },
   custom: {
     esbuild: {

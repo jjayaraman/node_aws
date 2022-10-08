@@ -21,8 +21,18 @@ provider:
     BUCKET_NAME: jay-serverless-bucket  
 custom:
   logRetentionInDays: 1
-  
-
+layers:
+  calculatorlayer: 
+    path: calculator-layer
+    name: ${sls:stage}-calulator-layer
+    compatibleRuntimes:
+      - "nodejs16.x"
+    compatibleArchitectures:
+      - "x86_64"
+    package:
+      include:
+        - "/nodejs/**"
+      
 plugins:
   - serverless-plugin-typescript
   - serverless-plugin-log-retention
