@@ -10,25 +10,27 @@ export const login = async (event: APIGatewayProxyEvent): Promise<APIGatewayProx
     const username = body?.username || 'jay'
     const password = body?.password || 'jay'
 
+    let response: APIGatewayProxyResult = {
+        statusCode: 200,
+        body: ''
+    }
+
     await authenticate(username, password)
         .then(token => {
             console.log(`token:  ${token}`);
-            return {
+            response = {
                 statusCode: 200,
-                body: { token }
+                body: JSON.stringify({ token })
             };
         })
         .catch(error => {
-            return {
+            response = {
                 statusCode: 401,
                 body: `Invalid credentials. Please try again`
             };
         })
 
-    return {
-        statusCode: 401,
-        body: `Invalid credentials. Please try again`
-    };
+    return response;
 }
 
 
