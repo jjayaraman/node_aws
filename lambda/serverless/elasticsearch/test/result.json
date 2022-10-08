@@ -1,0 +1,62 @@
+{
+    "took": 1,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 1,
+            "relation": "eq"
+        },
+        "max_score": null,
+        "hits": [{
+            "_index": "us-east-develop.oncamdev.com-app-2022.06",
+            "_type": "_doc",
+            "_id": "zt1xbYEBbvhOML88ayGt",
+            "_score": null,
+            "_source": {
+                "timeStamp": "2022-06-01 00:05:09.992",
+                "status": "cloudversion",
+                "service": "k8",
+                "type": "us-east-develop.oncamdev.com-app-notification:siteStatus",
+                "companyId": "unknown",
+                "@version": "1",
+                "result": "succeed",
+                "action": {
+                    "Services": {
+                        "auth": "2022-05-27.3840",
+                        "chisel": "2022-05-27.3840",
+                        "felix": "2022-05-27.3840",
+                        "form-management": "2022-05-27.3840",
+                        "irs": "2022-05-27.3840",
+                        "k8version": "latest",
+                        "mdpolicy": "2022-05-27.3840",
+                        "mds": "2022-05-27.3840",
+                        "nis": "2022-05-27.3840",
+                        "orientdb": "u2-20-13-4-0173",
+                        "s3rpc": "2022-05-27.3840",
+                        "sas": "2022-05-27.3840",
+                        "stunnel": "2022-05-27.3840",
+                        "uis": "2022-05-27.3840",
+                        "web-ui": "2022-05-27.3840",
+                        "wscomm": "2022-05-27.3840",
+                        "wstunnel": "2022-05-27.3840"
+                    },
+                    "Version": "2022-05-27.3840"
+                },
+                "siteId": "lessonvu",
+                "diag": "Restarting target system",
+                "channelName": "siteStatus",
+                "@timestamp": "2022-06-01T00:05:09.992Z",
+                "clientId": "unknown"
+            },
+            "sort": [
+                1654041909992
+            ]
+        }]
+    }
+}

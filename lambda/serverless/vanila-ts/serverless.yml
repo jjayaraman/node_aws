@@ -18,9 +18,17 @@ provider:
               - Arn
           
   environment:
-    BUCKET_NAME: jay-serverless-bucket  
+    BUCKET_NAME: jay-serverless-bucket-2  
+  httpApi:
+    cors: true
+    authorizers:
+      apiAuthoriser:
+        type: request
+        functionName: authoriser
+
 custom:
   logRetentionInDays: 1
+
 layers:
   calculatorlayer: 
     path: calculator-layer
@@ -33,19 +41,40 @@ layers:
       include:
         - "/nodejs/**"
       
+  # Configures throttling settings for the API Gateway stage
+  # They apply to all http endpoints, unless specifically overridden
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 100
+    maxConcurrentRequests: 50
+
 plugins:
   - serverless-plugin-typescript
   - serverless-plugin-log-retention
   - serverless-s3-local
   - serverless-offline
+  - serverless-api-gateway-throttling
 
 functions:
-  get:
-    handler: src/handlers/s3Handler.get
+  authoriser:
+    handler: src/handlers/authoriser.handler
+  helloApi:
+    handler: src/handlers/helloApi.handler
     events:
       - httpApi:
-          path: /hello
+          path: /helloapi
+          method: get          
+          authorizer:
+            name: apiAuthoriser
+          throttling:
+            maxRequestsPerSecond: 10
+            maxConcurrentRequests: 5
+  s3ListObjects:
+    handler: src/handlers/s3ListObjects.handler
+    events:
+      - httpApi:
+          path: /s3listobjects
           method: get
+
 
 resources:
   Resources:

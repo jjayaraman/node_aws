@@ -1,4 +1,6 @@
+
 // import { add } from './../../../nodejs/calulator-layer/calculator';
+import { add } from '/opt/calculator';
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';

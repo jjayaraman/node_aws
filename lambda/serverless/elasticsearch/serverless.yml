@@ -1,0 +1,55 @@
+service: elasticsearch
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: eu-west-2
+  memorySize: 128
+  timeout: 10
+custom:
+  logRetentionInDays: 1
+
+plugins:
+  - serverless-plugin-typescript
+
+functions:
+  search:
+    handler: src/functions/elasticsearch.search
+    description: Lambda to search from Elasticsearch
+    memorySize: 128
+    events:
+      - httpApi:
+          path: /search
+          method: GET
+
+resources:
+  Resources:
+    PostsSearch:
+      Type: AWS::Elasticsearch::Domain
+      Properties:
+        ElasticsearchVersion: '6.8'
+        DomainName: esdomain-${self:provider.stage}
+        ElasticsearchClusterConfig:
+          DedicatedMasterEnabled: false
+          InstanceCount: 1
+          ZoneAwarenessEnabled: false
+          InstanceType: t2.small.elasticsearch
+        EBSOptions:
+          EBSEnabled: true
+          Iops: 0
+          VolumeSize: 10
+          VolumeType: 'gp2'
+        AccessPolicies:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                AWS: '*'
+              Action: 'es:ESHttp*'
+              Resource: !Sub "arn:aws:es:${self:provider.region}:${AWS::AccountId}:domain/esdomain-${self:provider.stage}/*"
+              Condition:
+                IpAddress:
+                   aws:SourceIp: ["90.255.235.87"] 
