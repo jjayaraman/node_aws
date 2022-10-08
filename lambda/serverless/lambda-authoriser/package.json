@@ -4,6 +4,7 @@
   "description": "Lambda authorisation example",
   "main": "index.js",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.106",
     "@types/jsonwebtoken": "^8.5.9",
     "serverless-plugin-log-retention": "^2.0.0",
     "serverless-plugin-typescript": "^2.1.4",
@@ -15,6 +16,7 @@
   "author": "Jayakumar Jayaraman",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.186.0",
     "jsonwebtoken": "^8.5.1"
   }
 }
