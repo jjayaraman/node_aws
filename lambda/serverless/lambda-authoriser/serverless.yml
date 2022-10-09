@@ -28,13 +28,17 @@ plugins:
   - serverless-plugin-log-retention
 
 functions:
+  login:
+    handler: src/functions/login/handler.login
+    events:
+      - httpApi:
+          path: /login
+          method: post
   authoriser:
     handler: src/functions/authoriser/handler.authoriser
     environment:
       ACCOUNT_ID: ${aws:accountId}
       REGION: ${aws:region}
-      # SECRET: 'dummysecret'
-      # API_ID: ${self:provider.environment.RestApiId}
   hello:
     handler: src/functions/hello/handler.hello
     events:
@@ -43,16 +47,7 @@ functions:
           method: get
           authorizer:
             name: customAuthorizer
-            # identitySource: method.request.header.Authorization 
-            # resultTtlInSeconds: 60 # cache the result for 1 min
-  login:
-    handler: src/functions/login/handler.login
-    events:
-      - httpApi:
-          path: /login
-          method: post
-    # environment:
-      # SECRET: 'dummysecret'
+            
 
 
     

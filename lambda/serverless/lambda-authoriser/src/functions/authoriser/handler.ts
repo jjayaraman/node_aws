@@ -40,7 +40,7 @@ export const authoriser = async (event: any) => {
                 {
                     "Effect": effect,
                     "Action": "execute-api:Invoke",
-                    "Resource": `arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${API_ID}/*/GET/`
+                    "Resource": `arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${API_ID}/*`
                 }
             ]
         },
