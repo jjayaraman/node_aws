@@ -9,7 +9,7 @@ provider:
   timeout: 20
   httpApi:
     authorizers:
-      customAuthorizer:
+      jwtCustomAuthorizer:
         type: request
         functionName: authoriser
     metrics: true
@@ -46,8 +46,8 @@ functions:
           path: /hello
           method: get
           authorizer:
-            name: customAuthorizer
-            
+            name: jwtCustomAuthorizer
+
 
 
     

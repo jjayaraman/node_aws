@@ -42,7 +42,7 @@ const authenticate = async (username: string, password: string): Promise<string>
             const JWT_SECRET = process.env.JWT_SECRET as string
             const options: SignOptions = {
                 algorithm: 'HS256',
-                expiresIn: '2h',
+                expiresIn: '120s',
                 issuer: 'jay',
                 audience: 'lambda',
             }
