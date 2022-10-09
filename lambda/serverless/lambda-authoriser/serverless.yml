@@ -14,6 +14,11 @@ provider:
         functionName: authoriser
     metrics: true
     cors: true
+  environment:
+    API_ID:
+      Ref: HttpApi
+    JWT_SECRET: 'dummysecret'
+  
 
 custom:
   logRetentionInDays: 1
@@ -28,6 +33,8 @@ functions:
     environment:
       ACCOUNT_ID: ${aws:accountId}
       REGION: ${aws:region}
+      # SECRET: 'dummysecret'
+      # API_ID: ${self:provider.environment.RestApiId}
   hello:
     handler: src/functions/hello/handler.hello
     events:
@@ -44,8 +51,8 @@ functions:
       - httpApi:
           path: /login
           method: post
-    environment:
-      SECRET: 'dummysecret'
+    # environment:
+      # SECRET: 'dummysecret'
 
 
     

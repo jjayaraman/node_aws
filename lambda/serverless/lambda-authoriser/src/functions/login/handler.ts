@@ -39,15 +39,15 @@ const authenticate = async (username: string, password: string): Promise<string>
     if (username && password) {
         if (username === 'jay' && password === 'jay') {
             const payload = { username }
-            const SECRET = process.env.SECRET as string
+            const JWT_SECRET = process.env.JWT_SECRET as string
             const options: SignOptions = {
                 algorithm: 'HS256',
-                expiresIn: '60',
+                expiresIn: '120',
                 issuer: 'jay',
                 audience: 'lambda',
             }
 
-            const token = sign(payload, SECRET, options);
+            const token = sign(payload, JWT_SECRET, options);
             return token;
         }
     }
