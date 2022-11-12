@@ -1,0 +1,28 @@
+service: crud-s3
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-2
+  stage: dev
+  environment:
+    FX_S3_BUCKET_NAME: npas-fx-rates # Bucket name
+
+plugins:
+  - serverless-plugin-typescript
+
+functions:
+  hello:
+    handler: src/handler.upload
+    events:
+      - httpApi:
+          path: /upload
+          method: post
+
+resources:
+  Resources:
+    fxratesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.FX_S3_BUCKET_NAME}
