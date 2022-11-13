@@ -3,24 +3,21 @@ import {
   PutObjectCommandInput,
   S3Client,
 } from '@aws-sdk/client-s3';
-import fs from 'fs';
-import path from 'path';
+import * as moment from 'moment';
 
 const s3Client = new S3Client({});
 
-export const s3Upload = async (bucketName: string, file: string) => {
-  console.log(`bucketName : ${bucketName}, file : ${file}`);
+export const s3Upload = async (bucketName: string, contents: string) => {
+  console.log(`bucketName : ${bucketName}, file : ${contents}`);
 
-  if (!bucketName || !file) {
-    throw new Error(`Invalid data supplied.`);
+  if (!bucketName || !contents) {
+    throw new Error(`Invalid data supplied...`);
   }
-
-  const fileStream = fs.createReadStream(file);
-
+  const time = moment().format('YYYYMMDDhhmmssSSS');
   const putObjectCommandInput: PutObjectCommandInput = {
     Bucket: bucketName,
-    Key: path.basename(file),
-    Body: fileStream,
+    Key: `fxrate_${time}`,
+    Body: contents,
   };
 
   const putObjectCommand: PutObjectCommand = new PutObjectCommand(

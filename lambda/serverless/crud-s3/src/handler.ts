@@ -6,11 +6,10 @@ export const upload = async (event) => {
   console.log(`event : ${JSON.stringify(event)}`);
 
   const BUCKET_NAME = process.env.FX_S3_BUCKET_NAME as string;
-  const file = event.body.file;
+  const contents = event.body;
+  console.log(`bucket ${BUCKET_NAME}, contents: ${contents}`);
 
-  console.log(`bucket ${BUCKET_NAME}, file: ${file}`);
-
-  const result = await s3Upload(BUCKET_NAME, file);
+  const result = await s3Upload(BUCKET_NAME, contents);
   console.log(`result : ${JSON.stringify(result)}`);
 
   return {
