@@ -11,7 +11,7 @@ export const s3Upload = async (bucketName: string, contents: string) => {
   console.log(`bucketName : ${bucketName}, file : ${contents}`);
 
   if (!bucketName || !contents) {
-    throw new Error(`Invalid data supplied...`);
+    throw new Error(`Invalid data supplied.`);
   }
   const time = moment().format('YYYYMMDDhhmmssSSS');
   const putObjectCommandInput: PutObjectCommandInput = {

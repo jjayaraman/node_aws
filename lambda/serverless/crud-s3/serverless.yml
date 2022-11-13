@@ -7,7 +7,7 @@ provider:
   region: eu-west-2
   stage: dev
   environment:
-    FX_S3_BUCKET_NAME: npas-fx-rates # Bucket name
+    FX_S3_BUCKET_NAME: npas-fx-rates
 
 plugins:
   - serverless-plugin-typescript
@@ -51,5 +51,4 @@ resources:
                 - Effect: Allow
                   Action:
                     - s3:*
-                  Resource: arn:aws:s3:::npas-fx-rates
-                  # Resource: !Sub arn:aws:s3:::${self:provider.environment.FX_S3_BUCKET_NAME}
+                  Resource: '*'
