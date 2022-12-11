@@ -1,0 +1,22 @@
+service: iot
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: 'eu-west-2'
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 'iot:ListThings'
+      Resource: '*'
+
+plugins:
+  - serverless-plugin-typescript
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
