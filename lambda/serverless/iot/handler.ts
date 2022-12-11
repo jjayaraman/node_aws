@@ -5,7 +5,13 @@ const iot = new aws.Iot();
 
 export const hello = async (event) => {
   const nextToken = event?.queryStringParameters?.nextToken;
-  const result = await listThings(nextToken);
+  const maxResultsString = event?.queryStringParameters?.maxResults;
+
+  let maxResults: number = 1;
+  if (maxResultsString) {
+    maxResults = parseInt(maxResultsString);
+  }
+  const result = await listThings(nextToken, maxResults);
   console.log('result: ', JSON.stringify(result));
 
   const response = {
@@ -16,11 +22,11 @@ export const hello = async (event) => {
 };
 
 // List all iotThings based on search criteria in listThingsRequest
-const listThings = async (nextToken) => {
+const listThings = async (nextToken: string, maxResults: number) => {
   var listThingsRequest = {
     nextToken: nextToken ? nextToken : undefined,
-    maxResults: 1, // Defaults to max allowed value 250
+    maxResults: maxResults ? maxResults : 1, // Defaults to 1
   };
-
+  console.log(`listThingsRequest : `, JSON.stringify(listThingsRequest));
   return iot.listThings(listThingsRequest).promise();
 };
