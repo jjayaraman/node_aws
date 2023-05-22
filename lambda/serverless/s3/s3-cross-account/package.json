@@ -13,5 +13,8 @@
     "@types/aws-lambda": "^8.10.115",
     "serverless-plugin-typescript": "^2.1.4",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.335.0"
   }
 }
