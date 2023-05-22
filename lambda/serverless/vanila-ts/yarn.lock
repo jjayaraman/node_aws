@@ -3327,7 +3327,7 @@
   "resolved" "https://registry.npmjs.org/lodash.union/-/lodash.union-4.6.0.tgz"
   "version" "4.6.0"
 
-"lodash@^4.17.11", "lodash@^4.17.15", "lodash@^4.17.21", "lodash@^4.17.5":
+"lodash@^4.17.10", "lodash@^4.17.11", "lodash@^4.17.15", "lodash@^4.17.21", "lodash@^4.17.5":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -4223,6 +4223,13 @@
   dependencies:
     "lodash.get" "^4.4.2"
     "lodash.isempty" "^4.4.0"
+
+"serverless-api-stage@^1.4.0":
+  "integrity" "sha512-XSRrwwgGKzKG2bp1hlCHReDbGFYZ5spgmBN6c7lywwBcnpUOisosncv5JJMqXMo3nP1xgSFRtnh5+4gWK5rt3Q=="
+  "resolved" "https://registry.npmjs.org/serverless-api-stage/-/serverless-api-stage-1.4.0.tgz"
+  "version" "1.4.0"
+  dependencies:
+    "lodash" "^4.17.10"
 
 "serverless-offline@^8.0.0", "serverless-offline@^8.8.0":
   "integrity" "sha512-tpvAEGMf6qB9jGSDrpLQSYljqiIxOfjpsWq6q9ol3goqbcxXasvGR9nVX5cXq1MNBRXsJQE1PdHxtxivng2Lrw=="

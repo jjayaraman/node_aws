@@ -6,6 +6,7 @@ provider:
   name: aws
   region: eu-west-2
   runtime: nodejs16.x
+  stage: dev
   iam:
     role:
       statements:
@@ -27,6 +28,7 @@ provider:
         functionName: authoriser
 
 custom:
+  stage: ${opt:stage, self:provider.stage}
   logRetentionInDays: 1
   # Configures throttling settings for the API Gateway stage
   # They apply to all http endpoints, unless specifically overridden
@@ -34,12 +36,14 @@ custom:
     maxRequestsPerSecond: 100
     maxConcurrentRequests: 50
 
+
 plugins:
   - serverless-plugin-typescript
   - serverless-plugin-log-retention
   - serverless-s3-local
   - serverless-offline
   - serverless-api-gateway-throttling
+  - serverless-api-stage
 
 functions:
   authoriser:
