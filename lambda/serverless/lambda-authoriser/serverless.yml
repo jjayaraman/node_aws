@@ -1,0 +1,53 @@
+service: lambda-authoriser
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-2
+  memorySize: 128
+  timeout: 20
+  httpApi:
+    authorizers:
+      jwtCustomAuthorizer:
+        type: request
+        functionName: authoriser
+    metrics: true
+    cors: true
+  environment:
+    API_ID:
+      Ref: HttpApi
+    JWT_SECRET: 'dummysecret'
+  
+
+custom:
+  logRetentionInDays: 1
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-log-retention
+
+functions:
+  login:
+    handler: src/functions/login/handler.login
+    events:
+      - httpApi:
+          path: /login
+          method: post
+  authoriser:
+    handler: src/functions/authoriser/handler.authoriser
+    environment:
+      ACCOUNT_ID: ${aws:accountId}
+      REGION: ${aws:region}
+  hello:
+    handler: src/functions/hello/handler.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+          authorizer:
+            name: jwtCustomAuthorizer
+
+
+
+    

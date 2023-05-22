@@ -1,0 +1,21 @@
+service: hello-layer
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: eu-west-2
+  runtime: nodejs16.x
+  logRetentionInDays: 1  
+  
+plugins:
+  - serverless-plugin-typescript
+  # - serverless-plugin-log-retention
+
+functions:
+  hello:
+    handler: src/functions/hello/handler.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: get

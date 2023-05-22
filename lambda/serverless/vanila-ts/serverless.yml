@@ -30,6 +30,19 @@ provider:
 custom:
   stage: ${opt:stage, self:provider.stage}
   logRetentionInDays: 1
+
+layers:
+  calculatorlayer: 
+    path: calculator-layer
+    name: ${sls:stage}-calulator-layer
+    compatibleRuntimes:
+      - "nodejs16.x"
+    compatibleArchitectures:
+      - "x86_64"
+    package:
+      include:
+        - "/nodejs/**"
+      
   # Configures throttling settings for the API Gateway stage
   # They apply to all http endpoints, unless specifically overridden
   apiGatewayThrottling:

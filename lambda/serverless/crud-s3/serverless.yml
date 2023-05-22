@@ -1,0 +1,54 @@
+service: crud-s3
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-2
+  stage: dev
+  environment:
+    FX_S3_BUCKET_NAME: npas-fx-rates
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-enable-api-logs
+  - serverless-plugin-log-retention
+
+custom:
+  logRetentionInDays: 1 # cloudwatch log retention days
+
+functions:
+  upload:
+    handler: src/handler.upload
+    events:
+      - httpApi:
+          path: /upload
+          method: post
+    role: s3UploadRole
+
+resources:
+  Resources:
+    fxratesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.FX_S3_BUCKET_NAME}
+    s3UploadRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: 'Allow'
+              Action: sts:AssumeRole
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+        Policies:
+          - PolicyName: upload-policy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:*
+                  Resource: '*'
