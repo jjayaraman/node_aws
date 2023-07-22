@@ -11,6 +11,8 @@ export const handler = async (
     await upload()
     console.log(`finished.....`)
   } catch (error) {
+    console.log(error)
+
     return {
       statusCode: 500,
       body: JSON.stringify(error),

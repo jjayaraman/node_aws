@@ -6,6 +6,13 @@ provider:
   runtime: nodejs18.x
   region: eu-west-2
 
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: s3:*
+          Resource: '*'
+
 plugins:
   - serverless-plugin-typescript
 
