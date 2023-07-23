@@ -9,4 +9,4 @@ jspm_packages
 .esbuild
 
 #environment 
-.env.json
+env.json
