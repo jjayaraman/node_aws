@@ -32,3 +32,16 @@ export const getUsers = {
   ],
   vpc,
 }
+
+export const deleteUser = {
+  handler: `${handlerPath(__dirname)}/handler.deleteuser`,
+  events: [
+    {
+      http: {
+        method: 'DELETE',
+        path: 'user/{id}',
+      },
+    },
+  ],
+  vpc,
+}

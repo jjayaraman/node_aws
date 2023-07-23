@@ -57,7 +57,21 @@ export class UserService {
     } catch (err) {
       console.error(err)
     } finally {
-      // await client.end()
+    }
+  }
+
+  deleteUser = async (id: string) => {
+    try {
+      const queryConfig: QueryConfig = {
+        text: 'DELETE FROM public."User" WHERE id = $1',
+        values: [id],
+      }
+      const res = await this.pgUtils.executeQuery(queryConfig)
+      console.log(res)
+      return res
+    } catch (err) {
+      console.error(err)
+    } finally {
     }
   }
 }

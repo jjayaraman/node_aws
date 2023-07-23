@@ -48,7 +48,7 @@ const createHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
   })
 }
 
-const usersHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
+const getHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
   event
 ) => {
   console.log(`users handler event: ${JSON.stringify(event)}`)
@@ -61,5 +61,19 @@ const usersHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
   })
 }
 
+const deleteHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
+  event
+) => {
+  console.log(`users handler event: ${JSON.stringify(event)}`)
+  const id = event.pathParameters?.id
+  const res = await userService.deleteUser(id)
+  const count = res?.rowCount
+  console.log(`get users response: ${JSON.stringify(res)}`)
+  return formatJSONResponse({
+    message: `Number of user deleted is: ${count}`,
+  })
+}
+
 export const createuser = middyfy(createHandler)
-export const users = middyfy(usersHandler)
+export const users = middyfy(getHandler)
+export const deleteuser = middyfy(deleteHandler)
