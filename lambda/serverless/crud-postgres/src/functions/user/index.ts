@@ -1,8 +1,8 @@
-import user from './schema'
+import { user } from './schema'
 import { handlerPath } from '@libs/handler-resolver'
-import env from './../../../env.json'
+import { vpc } from './../../../env.json'
 
-export default {
+export const createUser = {
   handler: `${handlerPath(__dirname)}/handler.createuser`,
   events: [
     {
@@ -17,5 +17,18 @@ export default {
       },
     },
   ],
-  vpc: env.vpc,
+  vpc,
+}
+
+export const getUsers = {
+  handler: `${handlerPath(__dirname)}/handler.users`,
+  events: [
+    {
+      http: {
+        method: 'GET',
+        path: 'users',
+      },
+    },
+  ],
+  vpc,
 }

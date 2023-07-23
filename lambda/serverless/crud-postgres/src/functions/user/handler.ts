@@ -2,7 +2,7 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway'
 import { formatJSONResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 
-import schema from './schema'
+import { user } from './schema'
 import { DatabaseConfig } from 'src/utils/postgresUtils'
 import { UserService } from 'src/service/userService'
 import env from './../../../env.json'
@@ -10,7 +10,7 @@ import env from './../../../env.json'
 const host = process.env.PG_HOST || env.PG_HOST
 let portString = process.env.PG_PORT || env.PG_PORT
 const database = process.env.PG_DB || env.PG_DB
-const user = process.env.PG_USER || env.PG_USER
+const pguser = process.env.PG_USER || env.PG_USER
 const password = process.env.PG_PWD || env.PG_PWD
 const port = Number.parseInt(portString)
 const max = 1 // pool size
@@ -18,7 +18,7 @@ const max = 1 // pool size
 const config: DatabaseConfig = {
   host,
   port,
-  user,
+  user: pguser,
   password,
   database,
   max,
@@ -26,10 +26,10 @@ const config: DatabaseConfig = {
 
 const userService = new UserService(config)
 
-const create: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
+const createHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
   event
 ) => {
-  const userName = event.body.name
+  const userName = event.body?.name
 
   console.log(`creating user ${userName}`)
   const createRes = await userService.createTable('User')
@@ -48,4 +48,18 @@ const create: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   })
 }
 
-export const createuser = middyfy(create)
+const usersHandler: ValidatedEventAPIGatewayProxyEvent<typeof user> = async (
+  event
+) => {
+  console.log(`users handler event: ${JSON.stringify(event)}`)
+
+  const res = await userService.getUsers()
+  const users = res?.rows
+  console.log(`get users response: ${JSON.stringify(users)}`)
+  return formatJSONResponse({
+    users,
+  })
+}
+
+export const createuser = middyfy(createHandler)
+export const users = middyfy(usersHandler)
