@@ -1,6 +1,9 @@
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
 import { upload } from './utils/s3Utils'
 
+/*
+ * AWS Lambda
+ */
 export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
