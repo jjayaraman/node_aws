@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
-import { upload } from './utils/s3Utils'
+import { copyAllBetweenBuckets, getBucketKeys, upload } from './utils/s3Utils'
 
 /*
  * AWS Lambda
@@ -11,7 +11,14 @@ export const handler = async (
   console.log(`event: ${event}, context:${context}`)
 
   try {
-    await upload()
+    // await upload()
+    const sourceBucket = 'jjaybucket2'
+    const destBucket = 'jjays3crossbucket'
+    // const keys = await getBucketKeys(sourceBucket)
+    // console.log(`keys : ${keys}`)
+
+    await copyAllBetweenBuckets(sourceBucket, destBucket)
+
     console.log(`finished.....`)
   } catch (error) {
     console.log(error)
