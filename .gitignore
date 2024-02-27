@@ -104,4 +104,7 @@ dist
 .tern-port
 lambda/serverless/.DS_Store
 lambda/serverless/layers/gifmaker/.DS_Store
+
+
 **/.DS_Store
+lambda/serverless/.DS_Store

@@ -8,10 +8,18 @@ provider:
 
   iam:
     role:
+      name: 'jayLambdaDefaultRole'
       statements:
         - Effect: Allow
-          Action: s3:*
-          Resource: '*'
+          Action:
+            - 's3:*'
+          Resource:
+            - '*'
+        - Effect: Allow
+          Action:
+            - 'sts:*'
+          Resource:
+            - 'arn:aws:iam::11111111:role/jay-cross-account-assume-role'
 
 plugins:
   - serverless-plugin-typescript
@@ -21,5 +29,25 @@ functions:
     handler: src/s3upload.handler
     events:
       - httpApi:
-          method: GET
-          path: /s3/upload
+          method: POST
+          path: /s3/sync
+    environment:
+      roleArn: ''
+      sourceBucket: ''
+      destBucket: ''
+
+resources:
+  Resources:
+    jayAssumeRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: 'jayAssumeRole'
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - sts:AssumeRole
+              Principal:
+                Service:
+                  - lambda.amazonaws.com

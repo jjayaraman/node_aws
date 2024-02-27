@@ -4,20 +4,21 @@
   "description": "<!-- title: 'AWS NodeJS Example' description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.' layout: Doc framework: v3 platform: AWS language: nodeJS priority: 1 authorLink: 'https://github.com/serverless' authorName: 'Serverless, inc.' authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4' -->",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf dist",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "predeploy": "npm run clean && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.115",
-    "serverless-plugin-typescript": "^2.1.4",
-    "typescript": "^5.0.4"
+    "@types/node": "^20.11.20",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "zip-dir": "^2.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.335.0",
-    "@aws-sdk/client-secrets-manager": "^3.515.0",
-    "@aws-sdk/client-sts": "^3.521.0"
+    "@aws-sdk/client-s3": "^3.335.0"
   }
 }
