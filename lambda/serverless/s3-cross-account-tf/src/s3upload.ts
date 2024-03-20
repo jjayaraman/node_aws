@@ -29,7 +29,8 @@ export const handler = async (
 
     console.log(`key1: ${key1}, key2: ${key2}`)
 
-    const sourceClient = clientFromInput(key1, key2)
+    // const sourceClient = clientFromInput(key1, key2)
+    const sourceClient = client()
     const destClient = client()
 
     const result = await getBucketKeys(sourceBucket, sourceClient)
