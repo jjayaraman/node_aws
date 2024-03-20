@@ -1,0 +1,38 @@
+import { APIGatewayProxyEvent, Context } from 'aws-lambda'
+import { copyAllBetweenCrossBuckets, client } from './utils/s3Utils'
+
+/*
+ * AWS Lambda
+ */
+export const handler = async (
+  event: APIGatewayProxyEvent,
+  context: Context
+): Promise<any> => {
+  console.log(`event: ${JSON.stringify(event)}`)
+
+  try {
+    const sourceBucket = process.env.sourceBucket as string
+    const destBucket = process.env.destBucket as string
+
+    const sourceClient = client()
+    const destClient = client()
+
+    const result = await copyAllBetweenCrossBuckets(
+      sourceBucket,
+      destBucket,
+      sourceClient,
+      destClient
+    )
+    console.log(`finished sync..... result: ${result}`)
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    }
+  } catch (error) {
+    console.log(`Error in S3 sync is : ${JSON.stringify(error)}`)
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    }
+  }
+}

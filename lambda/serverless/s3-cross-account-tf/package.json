@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
-    "predeploy": "npm run clean && npm run build"
+    "package": "npm run clean && npm run build && sh pack.sh"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "zip-dir": "^2.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.335.0"
+    "@aws-sdk/client-s3": "^3.335.0",
+    "@aws-sdk/client-sts": "^3.521.0"
   }
 }

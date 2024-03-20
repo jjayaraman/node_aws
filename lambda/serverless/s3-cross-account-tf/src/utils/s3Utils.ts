@@ -16,12 +16,11 @@ export const clientFromInput = (
   region?: string
 ) => {
   const config = {
-    region: region || 'eu-west-2',
+    // region: region || 'eu-west-2',
     credentials: {
       accessKeyId: accessKey1,
       secretAccessKey: accessKey2,
     },
-    
   }
   return new S3Client(config)
 }

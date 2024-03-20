@@ -31,7 +31,6 @@ resource "aws_iam_policy" "lambda_s3_access_policy" {
         "Action" : [
           "s3:GetObject",
           "s3:ListBucket",
-          "s3:PutObject"
         ],
         "Resource" : [
           "arn:aws:s3:::${var.s3_source_bucket}",
@@ -98,6 +97,7 @@ resource "aws_lambda_function" "s3upload" {
     variables = {
       sourceBucket = var.s3_source_bucket
       destBucket   = var.s3_destination_bucket
+      roleArn   = var.cross_account_role
     }
   }
 }

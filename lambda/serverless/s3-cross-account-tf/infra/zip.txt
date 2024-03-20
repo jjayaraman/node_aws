@@ -9,7 +9,5 @@ resource "null_resource" "zip_source" {
       zip -r s3-cross-account.zip .
     EOT
 
-    # Specify the working directory if needed
-    # working_dir = "/path/to/project"
   }
 }
