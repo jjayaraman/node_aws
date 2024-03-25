@@ -13,6 +13,7 @@ export const client = () => {
 export const clientFromInput = (
   accessKey1: string,
   accessKey2: string,
+  sessionToken?: string,
   region?: string
 ) => {
   const config = {
@@ -20,6 +21,7 @@ export const clientFromInput = (
     credentials: {
       accessKeyId: accessKey1,
       secretAccessKey: accessKey2,
+      sessionToken,
     },
   }
   return new S3Client(config)

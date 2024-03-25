@@ -26,22 +26,23 @@ export const handler = async (
 
     const key1 = response?.Credentials?.AccessKeyId as string
     const key2 = response?.Credentials?.SecretAccessKey as string
+    const sessionToken = response?.Credentials?.SessionToken as string
 
     console.log(`key1: ${key1}, key2: ${key2}`)
 
-    // const sourceClient = clientFromInput(key1, key2)
-    const sourceClient = client()
+    const sourceClient = clientFromInput(key1, key2)
+    // const sourceClient = client()
     const destClient = client()
 
-    const result = await getBucketKeys(sourceBucket, sourceClient)
-    console.log(`keys:: ${result}`)
+    // const result = await getBucketKeys(sourceBucket, sourceClient)
+    // console.log(`keys:: ${result}`)
 
-    // const result = await copyAllBetweenCrossBuckets(
-    //   sourceBucket,
-    //   destBucket,
-    //   sourceClient,
-    //   destClient
-    // )
+    const result = await copyAllBetweenCrossBuckets(
+      sourceBucket,
+      destBucket,
+      sourceClient,
+      destClient
+    )
 
     console.log(`finished sync..... result: ${result}`)
     return {

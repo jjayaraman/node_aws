@@ -86,8 +86,10 @@ resource "aws_lambda_function" "s3upload" {
   s3_bucket = aws_s3_bucket.lambda_bucket.id
   s3_key    = aws_s3_object.s3upload_object.key
 
-  runtime = "nodejs16.x"
-  handler = "src/s3upload.handler"
+  runtime     = "nodejs16.x"
+  handler     = "src/s3upload.handler"
+  memory_size = 128
+  timeout     = 30
 
   source_code_hash = filebase64sha256(var.zip_location)
 
@@ -97,7 +99,7 @@ resource "aws_lambda_function" "s3upload" {
     variables = {
       sourceBucket = var.s3_source_bucket
       destBucket   = var.s3_destination_bucket
-      roleArn   = var.cross_account_role
+      roleArn      = var.cross_account_role
     }
   }
 }
